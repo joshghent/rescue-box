@@ -1,6 +1,8 @@
 require("dotenv").config();
 const request = require("request-promise");
 const Octokit = require("@octokit/rest");
+const moment = require('moment');
+const changeCase = require('change-case')
 
 const {
   GIST_ID: gistId,
@@ -27,16 +29,34 @@ async function updateGist(stats) {
   }
 
   const lines = [];
-  const { productivity_pulse, total_hours, date } = stats;
+  const { productivity_pulse, date, total_duration_formatted } = stats;
+  const statsToRender = ["all_productive", "all_distracting", "neutral"];
+
+  lines.push([`⏰ Stats for ${moment(date).format('MMMM Do YYYY')}`])
 
   const line = [
-    "Productivity Pulse".padEnd(11),
-    String(total_hours).padEnd(14),
-    generateBarChart(productivity_pulse, 21),
-    String(productivity_pulse.toFixed(1)).padStart(5) + "%"
+    "Productivity Pulse".padEnd(19),
+    String(total_duration_formatted).padEnd(10),
+    generateBarChart(productivity_pulse, 10),
+    String(productivity_pulse.toFixed(0)).padStart(3) + "%"
   ];
 
   lines.push(line.join(" "));
+
+
+  for (var i = 0; i < statsToRender.length; i++) {
+    const stat = stats[`${statsToRender[i]}_percentage`];
+    const statTime = stats[`${statsToRender[i]}_duration_formatted`];
+
+    const line = [
+      changeCase.titleCase(statsToRender[i]).padEnd(19),
+      String(statTime).padEnd(10),
+      generateBarChart(stat, 10),
+      String(stat.toFixed(0)).padStart(3) + "%"
+    ];
+
+    lines.push(line.join(" "));
+  }
 
   try {
     // Get original filename to update that same file
