@@ -1,20 +1,21 @@
 require("dotenv").config();
-const { WakaTimeClient, RANGE } = require("wakatime-client");
+const request = require("request-promise");
 const Octokit = require("@octokit/rest");
 
 const {
   GIST_ID: gistId,
   GH_TOKEN: githubToken,
-  WAKATIME_API_KEY: wakatimeApiKey
+  RESCUETIME_API_KEY: rescueTimeKey
 } = process.env;
-
-const wakatime = new WakaTimeClient(wakatimeApiKey);
 
 const octokit = new Octokit({ auth: `token ${githubToken}` });
 
 async function main() {
-  const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
-  await updateGist(stats);
+  const stats = await request({
+    uri: `https://www.rescuetime.com/anapi/daily_summary_feed?key=${rescueTimeKey}`,
+    json: true
+  })
+  await updateGist(stats[0]);
 }
 
 async function updateGist(stats) {
@@ -26,19 +27,16 @@ async function updateGist(stats) {
   }
 
   const lines = [];
-  for (let i = 0; i < 5; i++) {
-    const data = stats.data.languages[i];
-    const { name, percent, text: time } = data;
+  const { productivity_pulse, total_hours, date } = stats;
 
-    const line = [
-      name.padEnd(11),
-      time.padEnd(14),
-      generateBarChart(percent, 21),
-      String(percent.toFixed(1)).padStart(5) + "%"
-    ];
+  const line = [
+    "Productivity Pulse".padEnd(11),
+    String(total_hours).padEnd(14),
+    generateBarChart(productivity_pulse, 21),
+    String(productivity_pulse.toFixed(1)).padStart(5) + "%"
+  ];
 
-    lines.push(line.join(" "));
-  }
+  lines.push(line.join(" "));
 
   try {
     // Get original filename to update that same file
@@ -47,7 +45,7 @@ async function updateGist(stats) {
       gist_id: gistId,
       files: {
         [filename]: {
-          filename: `📊 Weekly development breakdown`,
+          filename: `⏰ Daily Productivity Stats - ${date}`,
           content: lines.join("\n")
         }
       }

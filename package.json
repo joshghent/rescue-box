@@ -1,14 +1,23 @@
 {
-  "name": "waka-box",
-  "version": "3.0.0",
-  "description": "📊 Update a gist to contain your weekly WakaTime stats",
-  "author": "Matan Kushner <hello@matchai.me>",
+  "name": "rescue-box",
+  "version": "1.0.0",
+  "description": "⏰ Update a gist to contain your daily RescueTime stats",
+  "author": "Josh Ghent <me@joshghent>",
   "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "url": "https://github.com/joshghent/rescue-box",
+    "type": "git"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "@octokit/rest": "^16.18.1",
     "axios": "^0.18.0",
     "dotenv": "^7.0.0",
-    "wakatime-client": "^2.0.2"
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   },
   "devDependencies": {
     "husky": "^1.3.1",

@@ -1,4 +1,4 @@
-name: Update gist with WakaTime stats
+name: Update gist with RescueTime stats
 on:
   schedule:
     - cron: '*/10 * * * *'
@@ -8,8 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Update gist
-        uses: matchai/waka-box@master
+        uses: joshghent/rescue-box@master
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIST_ID: 968220c97e8da1d047a9a480fa432e54
-          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
+          GIST_ID: 2d5f82ddf12683b47fc27f987a561d03
+          WAKATIME_API_KEY: ${{ secrets.RESCUETIME_API_KEY }}
