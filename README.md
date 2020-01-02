@@ -20,7 +20,7 @@
 ### Project setup
 
 1. Fork this repo
-2. Edit the [environment variable](https://github.com/joshghent/rescue-box/blob/master/.github/workflows/schedule.yml#L13-L15) in `.github/workflows/schedule.yml`:
+2. Create a new blank gist and grab the end part of the URL
 
    - **GIST_ID:** The ID portion from your gist url: `https://gist.github.com/joshghent/`**`2d5f82ddf12683b47fc27f987a561d03`**.
 
@@ -28,4 +28,5 @@
 4. Add the following environment variables:
    - **GH_TOKEN:** The GitHub token generated above.
    - **RESCUETIME_API_KEY:** The API key for your RescueTime account.
+   - **GIST_ID:** The Gist ID that we got in Step 2
 5. Copy the contents of `.github/workflows/schedule.yml`, then delete the file and commit it. Then recreate the file and paste the contents back in (this is due to forked repos not running actions)
