@@ -13,7 +13,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@octokit/rest": "^16.18.1",
+    "@octokit/rest": "^16.43.2",
     "axios": "^0.27.2",
     "change-case": "^3.1.0",
     "dotenv": "^7.0.0",
