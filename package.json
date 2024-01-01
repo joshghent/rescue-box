@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^16.43.2",
-    "axios": "^1.6.2",
+    "axios": "^1.6.3",
     "change-case": "^3.1.0",
     "dotenv": "^7.0.0",
     "moment": "^2.29.4",
