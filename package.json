@@ -13,18 +13,18 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@octokit/rest": "^21.1.1",
-    "axios": "^1.7.9",
-    "change-case": "^3.1.0",
-    "dotenv": "^7.0.0",
+    "@octokit/rest": "^22.0.1",
+    "axios": "^1.13.5",
+    "change-case": "^5.4.4",
+    "dotenv": "^17.3.1",
     "moment": "^2.30.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "prettier": "^1.19.1",
-    "pretty-quick": "^4.0.0"
+    "prettier": "^3.8.1",
+    "pretty-quick": "^4.2.2"
   },
   "husky": {
     "hooks": {
