@@ -29,6 +29,7 @@
     }
   },
   "overrides": {
-    "picomatch": "~4.0.4"
+    "picomatch": "~4.0.4",
+    "follow-redirects": "~1.16.2"
   }
 }
