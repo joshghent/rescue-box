@@ -1,6 +1,5 @@
 require("dotenv").config();
-const request = require("request-promise");
-const Octokit = require("@octokit/rest");
+const { Octokit } = require("@octokit/rest");
 const moment = require('moment');
 const changeCase = require('change-case')
 
@@ -10,13 +9,17 @@ const {
   RESCUETIME_API_KEY: rescueTimeKey
 } = process.env;
 
-const octokit = new Octokit({ auth: `token ${githubToken}` });
+const octokit = new Octokit({ auth: githubToken });
 
 async function main() {
-  const stats = await request({
-    uri: `https://www.rescuetime.com/anapi/daily_summary_feed?key=${rescueTimeKey}`,
-    json: true
-  })
+  const url = new URL("https://www.rescuetime.com/anapi/daily_summary_feed");
+  url.searchParams.set("key", rescueTimeKey);
+  const response = await fetch(url);
+  if (!response.ok) {
+    // Don't include the URL in the error: it carries the API key.
+    throw new Error(`RescueTime request failed (${response.status})`);
+  }
+  const stats = await response.json();
   await updateGist(stats[0]);
 }
 
@@ -49,7 +52,7 @@ async function updateGist(stats) {
     const statTime = stats[`${statsToRender[i]}_duration_formatted`];
 
     const line = [
-      changeCase.titleCase(statsToRender[i]).padEnd(19),
+      changeCase.capitalCase(statsToRender[i]).padEnd(19),
       String(statTime).padEnd(10),
       generateBarChart(stat, 10),
       String(stat.toFixed(0)).padStart(3) + "%"
